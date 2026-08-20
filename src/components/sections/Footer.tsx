@@ -40,7 +40,7 @@ export function Footer() {
               Full Stack Developer
             </p>
             <p className="mt-2 max-w-xs text-sm text-neutral-400">
-              Building modern digital experiences from Nayanur, Viluppuram.
+              Building modern digital experiences from Nayanur, Viluppuram, India.
             </p>
           </div>
 

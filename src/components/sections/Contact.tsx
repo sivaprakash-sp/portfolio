@@ -95,7 +95,7 @@ export function Contact() {
                 </p>
 
                 <div className="mt-8 space-y-4">
-                  <InfoRow icon={<MapPin size={18} />} label="Location" value="Nayanur, Viluppuram" />
+                  <InfoRow icon={<MapPin size={18} />} label="Location" value="Nayanur, Viluppuram, India" />
                   <InfoRow icon={<Mail size={18} />} label="Email" value="sivaprakashsiva0008@gmail.com" />
                   <InfoRow icon={<Phone size={18} />} label="Phone" value="+91 7708615499" />
                 </div>

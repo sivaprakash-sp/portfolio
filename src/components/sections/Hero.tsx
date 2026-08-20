@@ -127,7 +127,7 @@ export function Hero() {
               animate="show"
               className="mt-5 max-w-xl text-neutral-400 md:text-lg max-read"
             >
-              Building Modern Digital Experiences. Based in Nayanur, Viluppuram — crafting fast,
+              Building Modern Digital Experiences. Based in Nayanur, Viluppuram, India — crafting fast,
               responsive, scalable web applications with a futuristic edge.
             </motion.p>
 
