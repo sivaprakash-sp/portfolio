@@ -5,7 +5,7 @@ const SOCIALS = [
   { label: 'GitHub', href: 'https://github.com/', icon: GithubIcon },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/', icon: LinkedinIcon },
   { label: 'Instagram', href: 'https://www.instagram.com/', icon: InstagramIcon },
-  { label: 'Email', href: 'mailto:sivaprakash@example.com', icon: Mail },
+  { label: 'Email', href: 'mailto:sivaprakashsiva0008@gmail.com', icon: Mail },
 ];
 
 const TECH = ['React', 'Tailwind CSS', 'Framer Motion', 'Node.js'];
@@ -40,7 +40,7 @@ export function Footer() {
               Full Stack Developer
             </p>
             <p className="mt-2 max-w-xs text-sm text-neutral-400">
-              Building modern digital experiences from Tamil Nadu, India.
+              Building modern digital experiences from Nayanur, Viluppuram.
             </p>
           </div>
 

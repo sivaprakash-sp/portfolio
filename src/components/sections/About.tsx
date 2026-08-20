@@ -46,7 +46,7 @@ export function About() {
 
                 <div className="mt-6 space-y-3 border-t border-neutral-800 pt-6 text-sm text-neutral-300">
                   <p className="flex items-center gap-3">
-                    <MapPin size={16} className="text-accent-500" /> Tamil Nadu, India
+                    <MapPin size={16} className="text-accent-500" /> Nayanur, Viluppuram
                   </p>
                   <p className="flex items-start gap-3">
                     <GraduationCap size={16} className="mt-0.5 text-accent-500" />

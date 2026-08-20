@@ -21,7 +21,7 @@ export const SOCIALS = [
   { label: 'GitHub', href: 'https://github.com/', icon: 'github' as const },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/', icon: 'linkedin' as const },
   { label: 'Instagram', href: 'https://www.instagram.com/', icon: 'instagram' as const },
-  { label: 'Email', href: 'mailto:sivaprakash@example.com', icon: 'email' as const },
+  { label: 'Email', href: 'mailto:sivaprakashsiva0008@gmail.com', icon: 'email' as const },
 ];
 
 export type SkillCategory = {

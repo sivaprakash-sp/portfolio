@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Send, CheckCircle2, AlertCircle, Loader2, MapPin, Mail, Phone } from 'lucide-react';
 import { SectionHeading } from '@/components/SectionHeading';
-import { supabase } from '@/lib/supabase';
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
 
@@ -30,25 +29,31 @@ export function Contact() {
     setStatus('loading');
     setErrorMsg('');
 
-    if (!supabase.from) {
-      setStatus('error');
-      setErrorMsg('Messaging is temporarily unavailable. Please email me directly.');
-      return;
-    }
-
     try {
-      const { error } = await supabase.from('contact_messages').insert({
-        name: form.name,
-        email: form.email,
-        subject: form.subject,
-        message: form.message,
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: 'YOUR_WEB3FORMS_ACCESS_KEY', // IMPORTANT: Replace this with your Web3Forms access key
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+        }),
       });
 
-      if (error) throw error;
+      const result = await response.json();
 
-      setStatus('success');
-      setForm({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setStatus('idle'), 5000);
+      if (result.success) {
+        setStatus('success');
+        setForm({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        throw new Error(result.message || 'Something went wrong. Please try again.');
+      }
     } catch (err) {
       setStatus('error');
       setErrorMsg(
@@ -90,9 +95,9 @@ export function Contact() {
                 </p>
 
                 <div className="mt-8 space-y-4">
-                  <InfoRow icon={<MapPin size={18} />} label="Location" value="Tamil Nadu, India" />
-                  <InfoRow icon={<Mail size={18} />} label="Email" value="sivaprakash@example.com" />
-                  <InfoRow icon={<Phone size={18} />} label="Availability" value="Open to opportunities" />
+                  <InfoRow icon={<MapPin size={18} />} label="Location" value="Nayanur, Viluppuram" />
+                  <InfoRow icon={<Mail size={18} />} label="Email" value="sivaprakashsiva0008@gmail.com" />
+                  <InfoRow icon={<Phone size={18} />} label="Phone" value="+91 7708615499" />
                 </div>
               </div>
 

@@ -8,7 +8,7 @@ const SOCIALS = [
   { label: 'GitHub', href: 'https://github.com/', icon: GithubIcon },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/', icon: LinkedinIcon },
   { label: 'Instagram', href: 'https://www.instagram.com/', icon: InstagramIcon },
-  { label: 'Email', href: 'mailto:sivaprakash@example.com', icon: Mail },
+  { label: 'Email', href: 'mailto:sivaprakashsiva0008@gmail.com', icon: Mail },
 ];
 
 const fadeUp = {
@@ -127,7 +127,7 @@ export function Hero() {
               animate="show"
               className="mt-5 max-w-xl text-neutral-400 md:text-lg max-read"
             >
-              Building Modern Digital Experiences. Based in Tamil Nadu, India — crafting fast,
+              Building Modern Digital Experiences. Based in Nayanur, Viluppuram — crafting fast,
               responsive, scalable web applications with a futuristic edge.
             </motion.p>
 
