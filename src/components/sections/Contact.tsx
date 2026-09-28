@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Send, CheckCircle2, AlertCircle, Loader2, MapPin, Mail, Phone } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import { SectionHeading } from '@/components/SectionHeading';
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
@@ -16,13 +17,40 @@ export function Contact() {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
   };
 
+  const validateEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (status === 'loading') return;
 
-    if (!form.name || !form.email || !form.subject || !form.message) {
+    const trimmedName = form.name.trim();
+    const trimmedEmail = form.email.trim();
+    const trimmedSubject = form.subject.trim();
+    const trimmedMessage = form.message.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedSubject || !trimmedMessage) {
       setStatus('error');
       setErrorMsg('Please fill in all fields.');
+      return;
+    }
+
+    if (!validateEmail(trimmedEmail)) {
+      setStatus('error');
+      setErrorMsg('Please enter a valid email address.');
+      return;
+    }
+
+    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+    if (!serviceId || !templateId || !publicKey) {
+      const missingKeysMsg = 'EmailJS environment variables (VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY) are missing in .env file.';
+      console.error(missingKeysMsg);
+      setStatus('error');
+      setErrorMsg('EmailJS is not configured. Please check your .env environment variables.');
       return;
     }
 
@@ -30,34 +58,30 @@ export function Contact() {
     setErrorMsg('');
 
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          access_key: 'YOUR_WEB3FORMS_ACCESS_KEY', // IMPORTANT: Replace this with your Web3Forms access key
-          name: form.name,
-          email: form.email,
-          subject: form.subject,
-          message: form.message,
-        }),
-      });
+      const templateParams = {
+        name: trimmedName,
+        from_name: trimmedName,
+        email: trimmedEmail,
+        from_email: trimmedEmail,
+        reply_to: trimmedEmail,
+        subject: trimmedSubject,
+        message: trimmedMessage,
+      };
 
-      const result = await response.json();
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
 
-      if (result.success) {
-        setStatus('success');
-        setForm({ name: '', email: '', subject: '', message: '' });
-        setTimeout(() => setStatus('idle'), 5000);
-      } else {
-        throw new Error(result.message || 'Something went wrong. Please try again.');
-      }
+      setStatus('success');
+      setForm({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setStatus('idle'), 5000);
     } catch (err) {
+      console.error('EmailJS Error:', err);
       setStatus('error');
       setErrorMsg(
-        err instanceof Error ? err.message : 'Something went wrong. Please try again.'
+        err instanceof Error && err.message
+          ? err.message
+          : typeof err === 'object' && err && 'text' in err
+          ? String((err as { text: string }).text)
+          : 'Something went wrong. Please try again.'
       );
     }
   };
@@ -193,7 +217,7 @@ export function Contact() {
                 animate={{ opacity: 1, y: 0 }}
                 className="mt-4 flex items-center gap-2 rounded-xl border border-green-500/40 bg-green-500/10 px-4 py-3 text-sm text-green-300"
               >
-                <CheckCircle2 size={16} /> Message sent! I&apos;ll get back to you soon.
+                <CheckCircle2 size={16} /> Message sent successfully! I&apos;ll get back to you soon.
               </motion.div>
             )}
             {status === 'error' && (
