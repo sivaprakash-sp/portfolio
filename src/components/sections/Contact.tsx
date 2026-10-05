@@ -61,8 +61,10 @@ export function Contact() {
       const templateParams = {
         name: trimmedName,
         from_name: trimmedName,
+        user_name: trimmedName,
         email: trimmedEmail,
         from_email: trimmedEmail,
+        user_email: trimmedEmail,
         reply_to: trimmedEmail,
         subject: trimmedSubject,
         message: trimmedMessage,
@@ -73,16 +75,11 @@ export function Contact() {
       setStatus('success');
       setForm({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setStatus('idle'), 5000);
-    } catch (err) {
+    } catch (err: any) {
       console.error('EmailJS Error:', err);
       setStatus('error');
-      setErrorMsg(
-        err instanceof Error && err.message
-          ? err.message
-          : typeof err === 'object' && err && 'text' in err
-          ? String((err as { text: string }).text)
-          : 'Something went wrong. Please try again.'
-      );
+      const errText = err?.text || err?.message || (typeof err === 'string' ? err : '');
+      setErrorMsg(errText ? String(errText) : 'Failed to send message. Please check your network connection or EmailJS setup.');
     }
   };
 
